@@ -1,10 +1,13 @@
 const fs = require('fs')
 const path = require('path')
 const promisify = require('./promisify')
+const md5 = require('md5-node')
 
 const readdir = promisify(fs.readdir)
 const stat = promisify(fs.stat)
 const readFile = promisify(fs.readFile)
+
+const cache = {}
 
 async function readFilesRecursive (dirpath, suffix = '.md') {
   const rst = []
@@ -20,9 +23,11 @@ async function readFilesRecursive (dirpath, suffix = '.md') {
       if (fileStat.isDirectory()) {
         dirs.push(filePath)
       } else if (filePath.endsWith(suffix)) {
+        const articleId = md5(filePath)
+        cache[articleId] = filePath
         rst.push({
-          name: file,
-          path: filePath
+          name: file.replace('.md', ''),
+          articleId: articleId
         })
       }
     }
@@ -31,11 +36,12 @@ async function readFilesRecursive (dirpath, suffix = '.md') {
   return rst
 }
 
-async function readArticleDetail (filePath) {
-  return readFile(filePath, 'utf-8')
+async function readFileContent (fileId) {
+  if (!cache[fileId]) return
+  return readFile(cache[fileId], 'utf-8')
 }
 
 module.exports = {
-  readArticleDetail,
+  readFileContent,
   readFilesRecursive
 }

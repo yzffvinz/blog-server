@@ -1,14 +1,14 @@
 const path = require('path')
 const { basePath } = require('~/config')
-const { readFilesRecursive, readArticleDetail } = require('../lib/file')
+const { readFilesRecursive, readFileContent } = require('../lib/file')
 
 function queryArticleList () {
   const fullpath = path.join(basePath)
   return readFilesRecursive(fullpath)
 }
 
-function queryArticleDetail (articlePath) {
-  return readArticleDetail(articlePath)
+function queryArticleDetail (articleId) {
+  return readFileContent(articleId)
 }
 
 module.exports = {
