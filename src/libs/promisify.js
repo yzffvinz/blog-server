@@ -4,7 +4,6 @@ function promisify (fn) {
     return new Promise(function (resolve, reject) {
       [].push.call(args, function (err, result) {
         if (err) {
-          console.log(err)
           reject(err)
         } else {
           resolve(result)

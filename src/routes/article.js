@@ -1,16 +1,15 @@
-const { queryArticleList, queryArticleDetail } = require('@/service/article')
 const Router = require('koa-router')
 const router = new Router()
+const { queryArticleList, queryArticleDetail } = require('@/service/article')
+const { jsonResponse } = require('@/libs/response')
 
 router.get('/list', async (ctx) => {
   const files = await queryArticleList()
-  ctx.set('Content-Type', 'application/json')
-  ctx.body = JSON.stringify({ files })
+  jsonResponse(ctx, files)
 }).get('/detail', async (ctx) => {
   const { articleId } = ctx.query
   const detail = await queryArticleDetail(articleId)
-  ctx.set('Content-Type', 'application/json')
-  ctx.body = JSON.stringify({ detail })
+  jsonResponse(ctx, detail)
 })
 
 module.exports = router
