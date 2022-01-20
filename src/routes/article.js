@@ -4,7 +4,8 @@ const { queryArticleList, queryArticleDetail } = require('@/service/article')
 const { jsonResponse } = require('@/libs/response')
 
 router.get('/list', async (ctx) => {
-  const files = await queryArticleList()
+  const { category, type } = ctx.query
+  const files = await queryArticleList(category, type)
   jsonResponse(ctx, files)
 }).get('/detail', async (ctx) => {
   const { articleId } = ctx.query

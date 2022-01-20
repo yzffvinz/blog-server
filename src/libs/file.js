@@ -37,11 +37,17 @@ async function readFilesRecursive (dirpath, suffix = '.md') {
 }
 
 async function readFileContent (fileId) {
-  if (!cache[fileId]) return
-  return readFile(cache[fileId], 'utf-8')
+  const filepath = cache[fileId]
+  if (!filepath) return
+  const content = await readFile(filepath, 'utf-8')
+  return {
+    filepath,
+    content
+  }
 }
 
 module.exports = {
   readFileContent,
-  readFilesRecursive
+  readFilesRecursive,
+  readdir
 }
