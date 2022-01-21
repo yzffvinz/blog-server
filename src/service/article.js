@@ -1,12 +1,17 @@
 const path = require('path')
 const { basePath, homeName } = require('~/config')
-const { readFilesRecursive, readFileContent } = require('@/libs/file')
+const { readFilesRecursive, readFileContent, stat } = require('@/libs/file')
 
 async function queryArticleList (category = '', type = '', tag = '') {
-  const fullpath = path.join(basePath, category, type, tag)
-  const files = await readFilesRecursive(fullpath)
-  return {
-    files
+  try {
+    const fullpath = path.join(basePath, category, type, tag)
+    const fileStat = await stat(fullpath)
+    const files = fileStat.isDirectory() ? await readFilesRecursive(fullpath) : []
+    return {
+      files
+    }
+  } catch (e) {
+    console.log(e)
   }
 }
 
@@ -15,6 +20,7 @@ async function queryArticleDetail (articleId) {
   const sections = filepath.split('/')
   const name = sections
     .splice(-1)[0]
+    .replace(/\.md$/, '')
     .replace(/\b[a-z-_.]+\b/gi, value => ` ${value} `)
     .trim()
 

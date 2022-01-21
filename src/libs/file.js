@@ -49,5 +49,6 @@ async function readFileContent (fileId) {
 module.exports = {
   readFileContent,
   readFilesRecursive,
-  readdir
+  readdir,
+  stat
 }
