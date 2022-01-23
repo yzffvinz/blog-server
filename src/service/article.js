@@ -7,21 +7,19 @@ async function queryArticleList (category = '', type = '', tag = '') {
     const fullpath = path.join(basePath, category, type, tag)
     const fileStat = await stat(fullpath)
     const files = fileStat.isDirectory() ? await readFilesRecursive(fullpath) : []
-    return {
-      files
-    }
+    return files
   } catch (e) {
     console.log(e)
   }
 }
 
 async function queryArticleDetail (articleId) {
-  const { content, filepath } = await readFileContent(articleId)
+  const { content, filepath, info } = await readFileContent(articleId)
   const sections = filepath.split('/')
   const name = sections
     .splice(-1)[0]
     .replace(/\.md$/, '')
-    .replace(/\b[a-z-_.]+\b/gi, value => ` ${value} `)
+    .replace(/\b[a-z0-9A-Z-_.]+\b/gi, value => ` ${value} `)
     .trim()
 
   const from = sections.findIndex(section => homeName === section) + 1
@@ -31,7 +29,8 @@ async function queryArticleDetail (articleId) {
     type,
     tag,
     name,
-    content
+    content,
+    mtime: info.mtime.getTime()
   }
 }
 

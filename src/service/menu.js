@@ -3,6 +3,16 @@ const path = require('path')
 const { basePath, configFileName } = require('~/config')
 const { readdir } = require('@/libs/file')
 
+async function getCategoryConfig (category, type) {
+  try {
+    const configPath = path.join(basePath, category, configFileName)
+    const categoryConfig = require(configPath)
+    return categoryConfig.subjects.find(subject => subject.path === type)
+  } catch {
+    return {}
+  }
+}
+
 async function getMenu () {
   const files = await readdir(basePath)
   const menus = []
@@ -15,5 +25,6 @@ async function getMenu () {
 }
 
 module.exports = {
+  getCategoryConfig,
   getMenu
 }

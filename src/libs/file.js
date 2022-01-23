@@ -39,8 +39,10 @@ async function readFilesRecursive (dirpath, suffix = '.md') {
 async function readFileContent (fileId) {
   const filepath = cache[fileId]
   if (!filepath) return
+  const info = await stat(filepath)
   const content = await readFile(filepath, 'utf-8')
   return {
+    info,
     filepath,
     content
   }
