@@ -20,6 +20,7 @@ async function queryArticleDetail (articleId) {
     .splice(-1)[0]
     .replace(/\.md$/, '')
     .replace(/\b[a-z0-9A-Z-_.]+\b/gi, value => ` ${value} `)
+    .replace(/\s([0-9]+)\s/gi, (m, p1) => p1)
     .trim()
 
   const from = sections.findIndex(section => homeName === section) + 1
