@@ -45,6 +45,20 @@ function __wrapObjectId (id) {
 }
 
 /**
+ * 创建查询对象
+ * @param {*} raw
+ * @returns findOptions
+ */
+function buildFindOption (raw) {
+  const isDef = v => !([undefined, null].includes(v))
+  const findOption = {}
+  Object.keys(raw).forEach(k => {
+    isDef(raw[k]) && Object.assign(findOption, { [k]: raw[k] })
+  })
+  return findOption
+}
+
+/**
  * 查询
  * @param {*} collectionName 集合名称
  * @param {*} findOption 查询条件
@@ -63,6 +77,9 @@ async function find (collectionName, findOption = {}, options = {}) {
   const { done, collection } = await __getConnection(collectionName)
   try {
     // 查询
+    if (findOption._id) {
+      findOption._id = __wrapObjectId(findOption._id)
+    }
     let semi = collection.find(findOption)
     // 排序 + 分页逻辑
     const { sort, page } = options
@@ -146,6 +163,7 @@ async function deleteById (collectionName, id) {
 }
 
 module.exports = {
+  buildFindOption,
   find,
   insertOne,
   insertMany,

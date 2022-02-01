@@ -27,6 +27,13 @@ function jsonResponse (ctx, body) {
   ctx.body = new ResponseBean(body).body()
 }
 
+// json 格式返回错误
+function jsonError (ctx, errcode = RESPONSE_CODES.FAILED, msg = '') {
+  ctx.set('Content-Type', 'application/json')
+  ctx.body = new ResponseBean({}, errcode, msg)
+}
+
 module.exports = {
-  jsonResponse
+  jsonResponse,
+  jsonError
 }
