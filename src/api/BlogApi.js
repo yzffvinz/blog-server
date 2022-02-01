@@ -18,7 +18,7 @@ router
     try {
       const { title, category, tag } = ctx.query
       const blogs = await getBlogList({ title, category, tag })
-      jsonResponse(ctx, { blogs })
+      jsonResponse(ctx, blogs)
     } catch (e) {
       console.log(e)
       jsonError(ctx)

@@ -36,8 +36,15 @@ async function queryAllTags () {
   return allTags
 }
 
+async function queryTags ({ name, _id } = {}) {
+  const options = quick.buildFindOption({ name, _id })
+  const tags = await localFind(options)
+  return tags
+}
+
 module.exports = {
   queryAllCategories,
   queryTagsByCategory,
-  queryAllTags
+  queryAllTags,
+  queryTags
 }

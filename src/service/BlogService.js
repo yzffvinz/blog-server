@@ -2,6 +2,7 @@
  * @file blog 集合相关 Service 层方法
  * @author Wenzhe
  */
+const { queryTags } = require('@/dao/TagDao')
 const { queryBlogs } = require('@/dao/BlogDao')
 
 /**
@@ -21,8 +22,14 @@ async function getBlogById (_id) {
  * @returns blogs
  */
 async function getBlogList ({ title, category, tag } = {}) {
+  const tags = await queryTags({ name: tag || category })
+  const tagInfo = tags && tags.length && tags[0]
+
   const blogs = await queryBlogs({ title, category, tag })
-  return blogs
+  return {
+    tag: tagInfo || null,
+    blogs
+  }
 }
 
 module.exports = {
