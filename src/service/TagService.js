@@ -18,7 +18,7 @@ async function getMenuList () {
         children: []
       })
     } else {
-      const parent = menus.find(menu => menu._id.toString() === tag.parent)
+      const parent = menus.find(menu => menu.name === tag.parent)
       parent.children.push(tag)
     }
   })

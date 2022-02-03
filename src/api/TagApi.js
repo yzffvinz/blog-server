@@ -4,7 +4,7 @@ const { getMenuList } = require('@/service/TagService')
 const { jsonResponse, jsonError } = require('@/libs/response')
 
 router
-  .get('/list', async ctx => {
+  .get('/menu', async ctx => {
     try {
       const menus = await getMenuList()
       jsonResponse(ctx, { menus })

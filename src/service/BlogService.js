@@ -3,7 +3,7 @@
  * @author Wenzhe
  */
 const { queryTags } = require('@/dao/TagDao')
-const { queryBlogs } = require('@/dao/BlogDao')
+const { queryBlogs, insertBlog, updateBlogById } = require('@/dao/BlogDao')
 
 /**
   * 查询菜单信息
@@ -22,17 +22,28 @@ async function getBlogById (_id) {
  * @returns blogs
  */
 async function getBlogList ({ title, category, tag } = {}) {
-  const tags = await queryTags({ name: tag || category })
-  const tagInfo = tags && tags.length && tags[0]
-
-  const blogs = await queryBlogs({ title, category, tag })
-  return {
-    tag: tagInfo || null,
-    blogs
+  const rst = {}
+  if (tag || category) {
+    const tags = await queryTags({ name: tag || category })
+    const tagInfo = tags && tags.length && tags[0]
+    rst.tag = tagInfo || null
   }
+  rst.blogs = await queryBlogs({ title, category, tag })
+
+  return rst
+}
+
+async function addBlog (blogDetail) {
+  return insertBlog(blogDetail)
+}
+
+async function modifyBlog (blogDetail) {
+  return updateBlogById(blogDetail)
 }
 
 module.exports = {
   getBlogById,
-  getBlogList
+  getBlogList,
+  addBlog,
+  modifyBlog
 }

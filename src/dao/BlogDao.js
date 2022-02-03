@@ -7,7 +7,8 @@ const COLLECION_NAME = 'blog' // 涉及的集合名称 tag
 
 // 方法绑定集合名称
 const localFind = quick.find.bind(null, COLLECION_NAME)
-
+const localInsertOne = quick.insertOne.bind(null, COLLECION_NAME)
+const localUpdate = quick.updateById.bind(null, COLLECION_NAME)
 /**
  * 查询博客
  * @param {*} 查询条件
@@ -27,7 +28,7 @@ async function queryBlogs ({
   endUpdatetime // 更新时间
 }, {
   sort = { updatetime: -1 },
-  page = { pnum: 1, psize: 20 }
+  page = { pnum: 1, psize: 50 }
 } = {}) {
   // 相等的条件
   const findOptions = quick.buildFindOption({ _id, author, category, tags: tag, hide: 0 })
@@ -58,6 +59,75 @@ async function queryBlogs ({
   }, { sort, page })
   return blogs
 }
+
+async function insertBlog ({
+  title,
+  description,
+  author,
+  cover,
+  content = '',
+  category,
+  tags,
+  hide = 0
+}) {
+  const nowStamp = Date.now()
+  return localInsertOne({
+    title,
+    cover,
+    description,
+    author,
+    content,
+    category,
+    tags,
+    createtime: nowStamp,
+    updatetime: nowStamp,
+    hide
+  })
+}
+
+async function updateBlogById ({
+  _id,
+  title,
+  cover,
+  description,
+  author,
+  category,
+  tags,
+  content
+}) {
+  console.log({
+    _id,
+    title,
+    cover,
+    description,
+    author,
+    category,
+    tags,
+    content
+  })
+  return localUpdate({
+    _id,
+    title,
+    cover,
+    description,
+    author,
+    category,
+    tags,
+    content,
+    updatetime: Date.now()
+  })
+}
+
+async function deleteBlogById (_id) {
+  return localUpdate({
+    _id,
+    hide: 1
+  })
+}
+
 module.exports = {
-  queryBlogs
+  queryBlogs,
+  insertBlog,
+  updateBlogById,
+  deleteBlogById
 }
