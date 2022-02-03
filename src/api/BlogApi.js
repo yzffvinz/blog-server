@@ -2,6 +2,8 @@ const Router = require('koa-router')
 const router = new Router()
 const { getBlogById, getBlogList, addBlog, modifyBlog } = require('@/service/BlogService')
 const { jsonResponse, jsonError } = require('@/libs/response')
+const { RESPONSE_CODES } = require('@/common/constants')
+const { verifyToken } = require('@/libs/jwt')
 
 router
   .get('/detail', async ctx => {
@@ -26,8 +28,13 @@ router
   })
   .post('/add', async ctx => {
     try {
-      const rst = await addBlog(ctx.request.body)
-      jsonResponse(ctx, rst)
+      const token = verifyToken(ctx)
+      if (!token.token) {
+        jsonError(ctx, RESPONSE_CODES.LOGIN_NOT)
+      } else {
+        const rst = await addBlog({ ...ctx.request.body, author: token.data.username })
+        jsonResponse(ctx, rst)
+      }
     } catch (e) {
       console.log(e)
       jsonError(ctx)
@@ -35,8 +42,13 @@ router
   })
   .post('/modify', async ctx => {
     try {
-      const rst = await modifyBlog(ctx.request.body)
-      jsonResponse(ctx, rst)
+      const token = verifyToken(ctx)
+      if (!token.token) {
+        jsonError(ctx, RESPONSE_CODES.LOGIN_NOT)
+      } else {
+        const rst = await modifyBlog({ ...ctx.request.body, author: token.data.username })
+        jsonResponse(ctx, rst)
+      }
     } catch (e) {
       console.log(e)
       jsonError(ctx)

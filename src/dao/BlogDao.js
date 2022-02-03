@@ -95,16 +95,6 @@ async function updateBlogById ({
   tags,
   content
 }) {
-  console.log({
-    _id,
-    title,
-    cover,
-    description,
-    author,
-    category,
-    tags,
-    content
-  })
   return localUpdate({
     _id,
     title,
