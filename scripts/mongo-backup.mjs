@@ -8,7 +8,7 @@ function getToday () {
 
 async function backup () {
   // eslint-disable-next-line no-undef
-  await $`mongodump -h localhost:27017 -d blog-db -o ~/apps/backup/${getToday()}`
+  await $`mongodump -h localhost:27017 -d blog-db -o ~/app/data/backup/${getToday()}`
 }
 
 backup()
