@@ -13,11 +13,6 @@ const localFind = quick.find.bind(null, COLLECION_NAME)
   * @returns 博客分类（一级标签）
   */
 async function queryUser (username, password) {
-  console.log(username, password)
-  // {
-  //     username: 'Wenzhe',
-  //     password: 'b3fec36c7f93cda32ff35e0c54c83f98'
-  // }
   const user = await localFind({ username, password })
   return user
 }

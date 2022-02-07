@@ -5,8 +5,20 @@ const { jsonResponse, jsonError } = require('@/libs/response')
 const { encrypt } = require('@/libs/jwt')
 const { verifyUser } = require('@/service/UserService')
 const { RESPONSE_CODES } = require('@/common/constants')
+const { verifyToken } = require('@/libs/jwt')
 
 router
+  .get('/status', async ctx => {
+    try {
+      const token = verifyToken(ctx)
+      jsonResponse(ctx, {
+        isLogin: token.token
+      })
+    } catch (e) {
+      console.log(e)
+      jsonError(ctx)
+    }
+  })
   .post('/login', async ctx => {
     try {
       const isValid = await verifyUser(ctx.request.body)
