@@ -9,8 +9,8 @@ const { queryBlogs, insertBlog, updateBlogById } = require('@/dao/BlogDao')
   * 查询菜单信息
   * @returns menus
   */
-async function getBlogById (_id) {
-  const blogs = await queryBlogs({ _id })
+async function getBlogById (_id, fromAuthor) {
+  const blogs = await queryBlogs({ _id, fromAuthor })
   if (blogs && blogs.length) {
     return blogs[0]
   }
@@ -21,14 +21,14 @@ async function getBlogById (_id) {
  * @param {*} 查询条件 标题, 分类，标签
  * @returns blogs
  */
-async function getBlogList ({ title, category, tag } = {}) {
+async function getBlogList ({ title, category, tag, fromAuthor = false } = {}) {
   const rst = {}
   if (tag || category) {
     const tags = await queryTags({ name: tag || category })
     const tagInfo = tags && tags.length && tags[0]
     rst.tag = tagInfo || null
   }
-  rst.blogs = await queryBlogs({ title, category, tag })
+  rst.blogs = await queryBlogs({ title, category, tag, fromAuthor })
 
   return rst
 }

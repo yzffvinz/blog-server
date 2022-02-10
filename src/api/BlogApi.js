@@ -9,7 +9,8 @@ router
   .get('/detail', async ctx => {
     try {
       const { _id } = ctx.query
-      const blog = await getBlogById(_id)
+      const fromAuthor = verifyToken(ctx).token
+      const blog = await getBlogById(_id, fromAuthor)
       jsonResponse(ctx, { blog })
     } catch (e) {
       console.log(e)
@@ -19,7 +20,8 @@ router
   .get('/list', async ctx => {
     try {
       const { title, category, tag } = ctx.query
-      const blogs = await getBlogList({ title, category, tag })
+      const fromAuthor = verifyToken(ctx).token
+      const blogs = await getBlogList({ title, category, tag, fromAuthor })
       jsonResponse(ctx, blogs)
     } catch (e) {
       console.log(e)

@@ -25,17 +25,22 @@ async function queryBlogs ({
   startCreatetime, // 创建时间
   endCreatetime, // 创建时间
   startUpdatetime, // 更新时间
-  endUpdatetime // 更新时间
+  endUpdatetime, // 更新时间
+  fromAuthor = false
 }, {
   sort = { updatetime: -1 },
   page = { pnum: 1, psize: 50 }
 } = {}) {
   // 相等的条件
-  const findOptions = quick.buildFindOption({ _id, author, category, tags: tag, hide: 0 })
+  const findOptions = quick.buildFindOption({ _id, author, category, tags: tag })
 
   // 其他条件
   const extraConditions = {}
   // 标题模糊查询
+  if (!fromAuthor) { // 是否可以查看隐藏
+    extraConditions.hide = 0
+  }
+
   if (title) {
     extraConditions.title = { $regex: title }
   }
@@ -93,7 +98,8 @@ async function updateBlogById ({
   author,
   category,
   tags,
-  content
+  content,
+  hide = 0
 }) {
   return localUpdate({
     _id,
@@ -104,7 +110,8 @@ async function updateBlogById ({
     category,
     tags,
     content,
-    updatetime: Date.now()
+    updatetime: Date.now(),
+    hide
   })
 }
 
