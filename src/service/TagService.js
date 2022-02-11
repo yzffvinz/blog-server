@@ -2,7 +2,7 @@
  * @file tag 集合相关 Service 层方法
  * @author Wenzhe
  */
-const { queryAllTags } = require('@/dao/TagDao')
+const { queryAllTags, queryTags } = require('@/dao/TagDao')
 
 /**
  * 查询菜单信息
@@ -19,12 +19,33 @@ async function getMenuList () {
       })
     } else {
       const parent = menus.find(menu => menu.name === tag.parent)
-      parent.children.push(tag)
+      if (parent && parent.children) {
+        parent.children.push(tag)
+      }
     }
   })
   return menus
 }
 
+/**
+ * 查询所有类别
+ * @returns categories
+ */
+async function getCategories () {
+  const categories = await queryTags({ parent: '' })
+  return categories
+}
+/**
+ * 查询所有标签
+ * @returns tags
+ */
+async function getTags () {
+  const tags = await queryTags({ parent: { $ne: '' } })
+  return tags
+}
+
 module.exports = {
-  getMenuList
+  getMenuList,
+  getCategories,
+  getTags
 }

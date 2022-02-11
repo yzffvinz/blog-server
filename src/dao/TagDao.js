@@ -13,7 +13,7 @@ const localFind = quick.find.bind(null, COLLECION_NAME)
  * @returns 博客分类（一级标签）
  */
 async function queryAllCategories () {
-  const categories = await localFind({ parent: null }, { order: 1 })
+  const categories = await localFind({ parent: '' }, { order: 1 })
   return categories
 }
 
@@ -32,12 +32,12 @@ async function queryTagsByCategory (parent = '') {
  * @returns allTags
  */
 async function queryAllTags () {
-  const allTags = await localFind({}, { parent: 1, order: 1 })
+  const allTags = await localFind({}, { sort: { parent: 1, order: 1 } })
   return allTags
 }
 
-async function queryTags ({ name, _id } = {}) {
-  const options = quick.buildFindOption({ name, _id })
+async function queryTags (params = {}) {
+  const options = quick.buildFindOption(params)
   const tags = await localFind(options)
   return tags
 }
