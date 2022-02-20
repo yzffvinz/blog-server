@@ -10,7 +10,15 @@ const { queryUser } = require('@/dao/UserDao')
   */
 async function verifyUser ({ username, password }) {
   const user = await queryUser(username, password)
-  return user && user.length
+  let userInfo
+  if (user && user.length) {
+    const keys = ['Bucket', 'Region', 'SecretId', 'SecretKey', 'username']
+    userInfo = keys.reduce((sum, curKey) => {
+      sum[curKey] = user[0][curKey]
+      return sum
+    }, {})
+  }
+  return userInfo
 }
 
 module.exports = {

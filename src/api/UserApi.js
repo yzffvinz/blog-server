@@ -12,7 +12,8 @@ router
     try {
       const token = verifyToken(ctx)
       jsonResponse(ctx, {
-        isLogin: token.token
+        isLogin: token.token,
+        userInfo: token.data
       })
     } catch (e) {
       console.log(e)
@@ -21,9 +22,9 @@ router
   })
   .post('/login', async ctx => {
     try {
-      const isValid = await verifyUser(ctx.request.body)
-      if (isValid) {
-        ctx.cookies.set('token', encrypt({ username: ctx.request.body.username }))
+      const userInfo = await verifyUser(ctx.request.body)
+      if (userInfo) {
+        ctx.cookies.set('token', encrypt({ ...userInfo }))
         jsonResponse(ctx)
       } else {
         jsonError(ctx, RESPONSE_CODES.LOGIN_FAILED)
