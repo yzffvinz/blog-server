@@ -20,8 +20,9 @@ router
   .get('/list', async ctx => {
     try {
       const { title, category, tag } = ctx.query
-      const fromAuthor = verifyToken(ctx).token
-      const blogs = await getBlogList({ title, category, tag, fromAuthor })
+      const token = verifyToken(ctx)
+      const loginAuthor = (token.token && token.data.username) || ''
+      const blogs = await getBlogList({ title, category, tag, loginAuthor })
       jsonResponse(ctx, blogs)
     } catch (e) {
       console.log(e)

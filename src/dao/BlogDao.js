@@ -26,21 +26,25 @@ async function queryBlogs ({
   endCreatetime, // 创建时间
   startUpdatetime, // 更新时间
   endUpdatetime, // 更新时间
-  fromAuthor = false
+  loginAuthor = ''
 }, {
-  sort = { updatetime: -1 },
-  page = { pnum: 1, psize: 50 }
+  sort, // { updatetime: -1 }
+  page // { pnum: 1, psize: 50 }
 } = {}) {
   // 相等的条件
-  const findOptions = quick.buildFindOption({ _id, author, category, tags: tag })
+  const findConditions = quick.buildFindOption({ _id, author, category, tags: tag })
 
   // 其他条件
-  const extraConditions = {}
-  // 标题模糊查询
-  if (!fromAuthor) { // 是否可以查看隐藏
-    extraConditions.hide = 0
+  const extraConditions = {
+    $or: [{ hide: 0 }]
   }
 
+  // 文章作者可以查看自己的隐藏内容
+  if (loginAuthor) {
+    extraConditions.$or.push({ author: loginAuthor })
+  }
+
+  // 标题模糊查询
   if (title) {
     extraConditions.title = { $regex: title }
   }
@@ -59,9 +63,9 @@ async function queryBlogs ({
 
   // 查询
   const blogs = await localFind({
-    ...findOptions,
+    ...findConditions,
     ...extraConditions
-  }, { sort, page })
+  }, { page, sort })
   return blogs
 }
 
