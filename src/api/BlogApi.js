@@ -9,8 +9,9 @@ router
   .get('/detail', async ctx => {
     try {
       const { _id } = ctx.query
-      const fromAuthor = verifyToken(ctx).token
-      const blog = await getBlogById(_id, fromAuthor)
+      const token = verifyToken(ctx)
+      const loginAuthor = (token.token && token.data.username) || ''
+      const blog = await getBlogById(_id, loginAuthor)
       jsonResponse(ctx, { blog })
     } catch (e) {
       console.log(e)
@@ -49,7 +50,7 @@ router
       if (!token.token) {
         jsonError(ctx, RESPONSE_CODES.LOGIN_NOT)
       } else {
-        const rst = await modifyBlog({ ...ctx.request.body, author: token.data.username })
+        const rst = await modifyBlog({ ...ctx.request.body, loginAuthor: token.data.username })
         jsonResponse(ctx, rst)
       }
     } catch (e) {

@@ -103,7 +103,8 @@ async function updateBlogById ({
   category,
   tags,
   content,
-  hide = 0
+  hide = 0,
+  loginAuthor
 }) {
   return localUpdate({
     _id,
@@ -116,6 +117,8 @@ async function updateBlogById ({
     content,
     updatetime: Date.now(),
     hide
+  }, {
+    author: loginAuthor
   })
 }
 

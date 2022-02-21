@@ -16,8 +16,8 @@ const SORT_TYPE = {
   * 查询菜单信息
   * @returns menus
   */
-async function getBlogById (_id, fromAuthor) {
-  const blogs = await queryBlogs({ _id, fromAuthor })
+async function getBlogById (_id, loginAuthor) {
+  const blogs = await queryBlogs({ _id, loginAuthor })
   if (blogs && blogs.length) {
     return blogs[0]
   }

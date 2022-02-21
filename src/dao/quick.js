@@ -133,7 +133,7 @@ async function insertMany (collectionName, items) {
  * @param {*} collectionName
  * @param {*} item
  */
-async function updateById (collectionName, item) {
+async function updateById (collectionName, item, otherCondition = {}) {
   const { done, collection } = await __getConnection(collectionName)
   try {
     const copy = { ...item }
@@ -142,7 +142,7 @@ async function updateById (collectionName, item) {
     delete copy._id
 
     // 执行更新
-    return await collection.updateOne({ _id }, { $set: copy })
+    return await collection.updateOne({ _id, ...otherCondition }, { $set: copy })
   } finally {
     done() // 调用 done 用于关闭连接
   }
