@@ -28,19 +28,29 @@ async function getBlogById (_id, loginAuthor) {
  * @param {*} 查询条件 标题, 分类，标签
  * @returns blogs
  */
-async function getBlogList ({
-  title, category, tag, loginAuthor = ''
-  // sortType = 0
-  // sort = { updatetime: -1 },
-  // page = null
+async function getBlogList (queryParams = {}, {
+  loginAuthor,
+  sort = undefined,
+  page = undefined
 } = {}) {
+  const { tag, category } = queryParams
   const rst = {}
   if (tag || category) {
     const tags = await queryTags({ name: tag || category })
     const tagInfo = tags && tags.length && tags[0]
     rst.tag = tagInfo || null
   }
-  rst.blogs = await queryBlogs({ title, category, tag, loginAuthor }, { sort: tag || category ? SORT_TYPE[3] : SORT_TYPE[0] })
+
+  const allBlogs = await queryBlogs(queryParams, { loginAuthor })
+  const blogs = await queryBlogs(queryParams, {
+    loginAuthor,
+    sort: sort || (tag || category
+      ? SORT_TYPE[3]
+      : SORT_TYPE[0]),
+    page
+  })
+  rst.total = allBlogs.length
+  rst.blogs = blogs.map(blog => Object.assign(blog, { content: '' }))
 
   return rst
 }

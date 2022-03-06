@@ -21,18 +21,18 @@ async function queryBlogs ({
   author, // 作者
   category, // 分类
   tag, // 单个标签
-  // tags, // 多个标签
   startCreatetime, // 创建时间
   endCreatetime, // 创建时间
   startUpdatetime, // 更新时间
   endUpdatetime, // 更新时间
-  loginAuthor = ''
+  hide // 是否隐藏
 }, {
+  loginAuthor = '', // 登录用户
   sort, // { updatetime: -1 }
   page // { pnum: 1, psize: 50 }
 } = {}) {
   // 相等的条件
-  const findConditions = quick.buildFindOption({ _id, author, category, tags: tag })
+  const findConditions = quick.buildFindOption({ _id, author, category, tags: tag, hide })
 
   // 其他条件
   const extraConditions = {

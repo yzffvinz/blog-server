@@ -4,6 +4,7 @@ const { getBlogById, getBlogList, addBlog, modifyBlog } = require('@/service/Blo
 const { jsonResponse, jsonError } = require('@/libs/response')
 const { RESPONSE_CODES } = require('@/common/constants')
 const { verifyToken } = require('@/libs/jwt')
+const { BlogQueryParams } = require('@/model/Blog')
 
 router
   .get('/detail', async ctx => {
@@ -20,10 +21,17 @@ router
   })
   .get('/list', async ctx => {
     try {
-      const { title, category, tag } = ctx.query
+      const { pnum = 1, psize = 18 } = ctx.query
+      const queryParams = new BlogQueryParams(ctx.query)
       const token = verifyToken(ctx)
       const loginAuthor = (token.token && token.data.username) || ''
-      const blogs = await getBlogList({ title, category, tag, loginAuthor })
+      const blogs = await getBlogList(queryParams, {
+        loginAuthor,
+        page: {
+          pnum: +pnum,
+          psize: +psize
+        }
+      })
       jsonResponse(ctx, blogs)
     } catch (e) {
       console.log(e)
