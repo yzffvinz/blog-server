@@ -17,7 +17,7 @@ const SORT_TYPE = {
   * @returns menus
   */
 async function getBlogById (_id, loginAuthor) {
-  const blogs = await queryBlogs({ _id, loginAuthor })
+  const blogs = await queryBlogs({ _id }, { loginAuthor })
   if (blogs && blogs.length) {
     return blogs[0]
   }
