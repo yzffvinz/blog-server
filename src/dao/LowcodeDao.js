@@ -117,9 +117,6 @@ module.exports = {
       const rows = await collection.find({ _id }).toArray()
       const oldItem = rows[0]
       const now = Date.now()
-      if (!oldItem) {
-        return await collection.insertOne({ ...item, updatetime: now, createtime: now, version: 1 })
-      }
       if (oldItem.version && oldItem.version !== item.version) {
         // throw new Error('存在冲突')
       }
