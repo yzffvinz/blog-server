@@ -24,7 +24,14 @@ router
     try {
       const userInfo = await verifyUser(ctx.request.body)
       if (userInfo) {
-        ctx.cookies.set('token', encrypt({ ...userInfo }))
+        ctx.cookies.set(
+          'token',
+          encrypt({ ...userInfo }),
+          {
+            domain: 'liuwenzhe.com',
+            httpOnly: true
+          }
+        )
         jsonResponse(ctx)
       } else {
         jsonError(ctx, RESPONSE_CODES.LOGIN_FAILED)
