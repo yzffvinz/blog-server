@@ -1,5 +1,5 @@
 const { jsonResponse, jsonError } = require('@/libs/response')
-const {RESPONSE_CODES} = require('@/common/constants')
+const { RESPONSE_CODES } = require('@/common/constants')
 const Router = require('koa-router')
 const router = new Router()
 const { list, options, add, modify, del } = require('@/service/LowcodeService')

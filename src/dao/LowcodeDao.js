@@ -113,11 +113,14 @@ module.exports = {
       const _id = __wrapObjectId(item._id)
       const rows = await collection.find({ _id }).toArray()
       const oldItem = rows[0]
+      const now = Date.now()
+      if (!oldItem) {
+        return await collection.insertOne({ ...item, updatetime: now, createtime: now, version: 1 })
+      }
       if (oldItem.version && oldItem.version !== item.version) {
         // throw new Error('存在冲突')
       }
-      const updatetime = Date.now()
-      const copy = { ...item, updatetime, version: (item.version || 0) + 1 }
+      const copy = { ...item, now, version: (item.version || 0) + 1 }
       delete copy._id
 
       return await collection.updateOne({ _id }, { $set: copy })
