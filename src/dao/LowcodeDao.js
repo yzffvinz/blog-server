@@ -1,3 +1,4 @@
+const LOG = require('@/libs/logger')
 const { MongoClient, ObjectId } = require('mongodb')
 const connect = MongoClient.connect
 const dbScheme = 'mongodb://localhost:27017'
@@ -32,7 +33,7 @@ async function __getConnection (collectionName) {
 function __wrapObjectId (id) {
   if (!id) { throw new Error('_id is null') }
   if (!(id instanceof ObjectId)) {
-    id = new ObjectId(id)
+    id = ObjectId(id)
   }
   return id
 }
@@ -71,6 +72,8 @@ module.exports = {
 
         return Object.assign(sum, whereOption)
       }, {})
+
+      LOG.info(whereOptions)
       const rows = collection.find(whereOptions)
 
       // 处理分页
