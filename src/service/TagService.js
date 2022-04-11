@@ -2,22 +2,29 @@
  * @file tag 集合相关 Service 层方法
  * @author Wenzhe
  */
-const { queryAllTags, queryTags } = require('@/dao/TagDao')
+const { queryList } = require('@/dao/LowcodeDao')
+
+const defaultParams = [[], {
+  sort: [
+    { orderBy: 'order' }
+  ]
+}]
 
 /**
  * 查询菜单信息
  * @returns menus
  */
 async function getMenuList () {
-  const tags = await queryAllTags()
-  const menus = []
+  const categories = await queryList('category', ...defaultParams)
+  const tags = await queryList('tag', ...defaultParams)
+  const menus = categories.map(category => {
+    return {
+      ...category,
+      children: []
+    }
+  })
   tags.forEach(tag => {
-    if (!tag.parent) {
-      menus.push({
-        ...tag,
-        children: []
-      })
-    } else {
+    if (tag.parent) {
       const parent = menus.find(menu => menu.name === tag.parent)
       if (parent && parent.children) {
         parent.children.push(tag)
@@ -32,7 +39,7 @@ async function getMenuList () {
  * @returns categories
  */
 async function getCategories () {
-  const categories = await queryTags({ parent: '' })
+  const categories = await queryList('category', ...defaultParams)
   return categories
 }
 /**
@@ -40,7 +47,7 @@ async function getCategories () {
  * @returns tags
  */
 async function getTags () {
-  const tags = await queryTags({ parent: { $ne: '' } })
+  const tags = await queryList('tag', ...defaultParams)
   return tags
 }
 
