@@ -50,7 +50,14 @@ module.exports = {
         }
 
         const { op, val, field, type } = cur
-        const value = type === WHERE_TYPES.NUMBER ? +val : val
+
+        // 类型处理
+        let value = val
+        if (type === WHERE_TYPES.BOOLEAN) {
+          value = val === true || val === 'true'
+        } else if (type === WHERE_TYPES.NUMBER) {
+          value = +val
+        }
 
         let whereOption = { [field]: value }
 
@@ -114,14 +121,9 @@ module.exports = {
     const { done, collection } = await __getConnection(domain)
     try {
       const _id = __wrapObjectId(item._id)
-      // const rows = await collection.find({ _id }).toArray()
-      // const oldItem = rows[0]
-      const now = Date.now()
-      // if (oldItem.version && oldItem.version !== item.version) {
-      // throw new Error('存在冲突')
-      // }
-      // const copy = { ...item, now, version: (item.version || 0) + 1 }
-      const copy = { ...item, updatetime: now }
+      // const now = Date.now()
+      // const copy = { ...item, updatetime: now }
+      const copy = { ...item }
       delete copy._id
 
       return await collection.updateOne({ _id }, { $set: copy })

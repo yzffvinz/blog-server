@@ -1,5 +1,6 @@
 module.exports = {
   WHERE_OPS: {
+    LIKE: '%',
     EQ: '=',
     NE: '!',
     LT: '<',
@@ -10,6 +11,7 @@ module.exports = {
     IN: 'in' // TODO
   },
   MONGO_COMPARE_OPS_MAP: {
+    '%': '$regex',
     '!': '$ne',
     '<': '$lt',
     '>': '$gt',
@@ -17,6 +19,7 @@ module.exports = {
     '>=': '$gte'
   },
   WHERE_TYPES: {
-    NUMBER: 'number'
+    NUMBER: 'number',
+    BOOLEAN: 'boolean'
   }
 }
