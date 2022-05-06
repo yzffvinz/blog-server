@@ -38,6 +38,18 @@ function __wrapObjectId (id) {
   return id
 }
 
+/**
+ * amis 存在部分类型相关的 bug
+ * 这里对于 createtime updatetime 由字符串转为数字类型
+ */
+function __transformTime (item) {
+  ['createtime', 'updatetime'].forEach(key => {
+    if (item[key]) {
+      item[key] = +item[key]
+    }
+  })
+}
+
 module.exports = {
   async queryList (domain, where = [], options = {}) {
     const { done, collection } = await __getConnection(domain)
@@ -121,6 +133,7 @@ module.exports = {
     const { done, collection } = await __getConnection(domain)
     try {
       const _id = __wrapObjectId(item._id)
+      __transformTime(item)
       // const now = Date.now()
       // const copy = { ...item, updatetime: now }
       const copy = { ...item }
