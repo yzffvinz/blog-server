@@ -63,6 +63,13 @@
     "methods" "^1.1.2"
     "path-to-regexp" "^6.1.0"
 
+"@types/formidable@^2.0.4":
+  "integrity" "sha512-uvMcdn/KK3maPOaVUAc3HEYbCEhjaGFwww4EsX6IJfWIJ1tzHtDHczuImH3GKdusPnAAmzB07St90uabZeCKPA=="
+  "resolved" "https://registry.npmmirror.com/@types/formidable/-/formidable-2.0.5.tgz"
+  "version" "2.0.5"
+  dependencies:
+    "@types/node" "*"
+
 "@types/json5@^0.0.29":
   "integrity" "sha1-7ihweulOEdK4J7y+UnC86n8+ce4="
   "resolved" "https://registry.npmmirror.com/@types/json5/download/@types/json5-0.0.29.tgz"
@@ -170,6 +177,11 @@
     "define-properties" "^1.1.3"
     "es-abstract" "^1.19.0"
 
+"asap@^2.0.0":
+  "integrity" "sha512-BSHWgDSAiKs50o2Re8ppvp3seVHXSRM44cdSsT9FfNEUUZLOGWVCsiWaRPWM1Znn+mqZ1OfVZ3z3DWEzSp7hRA=="
+  "resolved" "https://registry.npmmirror.com/asap/-/asap-2.0.6.tgz"
+  "version" "2.0.6"
+
 "balanced-match@^1.0.0":
   "integrity" "sha1-6D46fj8wCzTLnYf2FfoMvzV2kO4="
   "resolved" "https://registry.npmmirror.com/balanced-match/download/balanced-match-1.0.2.tgz"
@@ -256,15 +268,15 @@
     "ansi-styles" "^4.1.0"
     "supports-color" "^7.1.0"
 
-"co-body@^6.0.0":
-  "integrity" "sha1-2HqO/DVk+b/jrO2O9c0Ex6h2ZUc="
-  "resolved" "http://registry.npm.baidu-int.com/co-body/-/co-body-6.1.0.tgz"
-  "version" "6.1.0"
+"co-body@^5.1.1":
+  "integrity" "sha512-sX/LQ7LqUhgyaxzbe7IqwPeTr2yfpfUIQ/dgpKo6ZI4y4lpQA0YxAomWIY+7I7rHWcG02PG+OuPREzMW/5tszQ=="
+  "resolved" "https://registry.npmmirror.com/co-body/-/co-body-5.2.0.tgz"
+  "version" "5.2.0"
   dependencies:
     "inflation" "^2.0.0"
-    "qs" "^6.5.2"
-    "raw-body" "^2.3.3"
-    "type-is" "^1.6.16"
+    "qs" "^6.4.0"
+    "raw-body" "^2.2.0"
+    "type-is" "^1.6.14"
 
 "co@^4.6.0":
   "integrity" "sha1-bqa989hTrlTMuOR7+gvz+QMfsYQ="
@@ -324,11 +336,6 @@
   dependencies:
     "depd" "~2.0.0"
     "keygrip" "~1.1.0"
-
-"copy-to@^2.0.1":
-  "integrity" "sha512-3DdaFaU/Zf1AnpLiFDeNCD4TOWe3Zl2RZaTzUvWiIk5ERzcCodOE20Vqq4fzCbNoHURFHT4/us/Lfq+S2zyY4w=="
-  "resolved" "http://registry.npm.baidu-int.com/copy-to/-/copy-to-2.0.1.tgz"
-  "version" "2.0.1"
 
 "cross-spawn@^7.0.2":
   "integrity" "sha1-9zqFudXUHQRVUcF34ogtSshXKKY="
@@ -416,6 +423,14 @@
   "integrity" "sha1-l4hXRCxEdJ5CBmE+N5RiBYJqvYA="
   "resolved" "https://registry.npmmirror.com/destroy/download/destroy-1.0.4.tgz"
   "version" "1.0.4"
+
+"dezalgo@1.0.3":
+  "integrity" "sha512-K7i4zNfT2kgQz3GylDw40ot9GAE47sFZ9EXHFSPP6zONLgH6kWXE0KWJchkbQJLBkRazq4APwZ4OwiFFlT95OQ=="
+  "resolved" "https://registry.npmmirror.com/dezalgo/-/dezalgo-1.0.3.tgz"
+  "version" "1.0.3"
+  dependencies:
+    "asap" "^2.0.0"
+    "wrappy" "1"
 
 "diff@^4.0.1":
   "integrity" "sha1-YPOuy4nV+uUgwRqhnvwruYKq3n0="
@@ -750,6 +765,16 @@
   "resolved" "http://registry.npm.baidu-int.com/flatted/-/flatted-3.2.5.tgz"
   "version" "3.2.5"
 
+"formidable@^2.0.1":
+  "integrity" "sha512-rjTMNbp2BpfQShhFbR3Ruk3qk2y9jKpvMW78nJgx8QKtxjDVrwbZG+wvDOmVbifHyOUOQJXxqEy6r0faRrPzTQ=="
+  "resolved" "https://registry.npmmirror.com/formidable/-/formidable-2.0.1.tgz"
+  "version" "2.0.1"
+  dependencies:
+    "dezalgo" "1.0.3"
+    "hexoid" "1.0.0"
+    "once" "1.4.0"
+    "qs" "6.9.3"
+
 "fresh@~0.5.2":
   "integrity" "sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac="
   "resolved" "https://registry.npmmirror.com/fresh/download/fresh-0.5.2.tgz"
@@ -870,6 +895,11 @@
   "version" "1.0.3"
   dependencies:
     "function-bind" "^1.1.1"
+
+"hexoid@1.0.0":
+  "integrity" "sha512-QFLV0taWQOZtvIRIAdBChesmogZrtuXvVWsFHZTk2SU+anspqZ2vMnoLg7IE1+Uk16N19APic1BuF8bC8c2m5g=="
+  "resolved" "https://registry.npmmirror.com/hexoid/-/hexoid-1.0.0.tgz"
+  "version" "1.0.0"
 
 "http-assert@^1.3.0":
   "integrity" "sha1-w4nM2HrBbtLfpiRv1zuSaqAOa48="
@@ -1170,13 +1200,14 @@
   dependencies:
     "tsscmp" "1.0.6"
 
-"koa-bodyparser@^4.3.0":
-  "integrity" "sha1-J0x3hVX/SPoiHufzap+9us4idZo="
-  "resolved" "http://registry.npm.baidu-int.com/koa-bodyparser/-/koa-bodyparser-4.3.0.tgz"
-  "version" "4.3.0"
+"koa-body@^5.0.0":
+  "integrity" "sha512-nHwEODrQGiyKBILCWO8QSS40C87cKr2cp3y/Cw8u9Z8w5t0CdSkGm3+y9WK5BIAlPpo9tTw5RtSbxpVyG79vmw=="
+  "resolved" "https://registry.npmmirror.com/koa-body/-/koa-body-5.0.0.tgz"
+  "version" "5.0.0"
   dependencies:
-    "co-body" "^6.0.0"
-    "copy-to" "^2.0.1"
+    "@types/formidable" "^2.0.4"
+    "co-body" "^5.1.1"
+    "formidable" "^2.0.1"
 
 "koa-compose@^4.1.0":
   "integrity" "sha1-UHMGuTcZAdtBEhyBLpI9DWfT6Hc="
@@ -1473,7 +1504,7 @@
   dependencies:
     "ee-first" "1.1.1"
 
-"once@^1.3.0":
+"once@^1.3.0", "once@1.4.0":
   "integrity" "sha1-WDsap3WWHUsROsF9nFC6753Xa9E="
   "resolved" "https://registry.npmmirror.com/once/download/once-1.4.0.tgz"
   "version" "1.4.0"
@@ -1568,14 +1599,19 @@
   "resolved" "https://registry.npmmirror.com/punycode/download/punycode-2.1.1.tgz"
   "version" "2.1.1"
 
-"qs@^6.5.2":
+"qs@^6.4.0":
   "integrity" "sha512-wr7M2E0OFRfIfJZjKGieI8lBKb7fRCH4Fv5KNPEs7gJ8jadvotdsS08PzOKR7opXhZ/Xkjtt3WF9g38drmyRqQ=="
   "resolved" "http://registry.npm.baidu-int.com/qs/-/qs-6.10.3.tgz"
   "version" "6.10.3"
   dependencies:
     "side-channel" "^1.0.4"
 
-"raw-body@^2.3.3":
+"qs@6.9.3":
+  "integrity" "sha512-EbZYNarm6138UKKq46tdx08Yo/q9ZhFoAXAI1meAFd2GtbRDhbZY2WQSICskT0c5q99aFzLG1D4nvTk9tqfXIw=="
+  "resolved" "https://registry.npmmirror.com/qs/-/qs-6.9.3.tgz"
+  "version" "6.9.3"
+
+"raw-body@^2.2.0":
   "integrity" "sha512-qqJBtEyVgS0ZmPGdCFPWJ3FreoqvG4MVQln/kCgF7Olq95IbOp0/BWyMwbdtn4VTvkM8Y7khCQ2Xgk/tcrCXig=="
   "resolved" "http://registry.npm.baidu-int.com/raw-body/-/raw-body-2.5.1.tgz"
   "version" "2.5.1"
@@ -1866,7 +1902,7 @@
   "resolved" "https://registry.npmmirror.com/type-fest/download/type-fest-0.20.2.tgz"
   "version" "0.20.2"
 
-"type-is@^1.6.16":
+"type-is@^1.6.14", "type-is@^1.6.16":
   "integrity" "sha1-TlUs0F3wlGfcvE73Od6J8s83wTE="
   "resolved" "https://registry.npmmirror.com/type-is/download/type-is-1.6.18.tgz"
   "version" "1.6.18"
