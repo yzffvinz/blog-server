@@ -18,11 +18,10 @@ router
     })
   })
   .post('/:page', async ctx => {
-    console.log(ctx.params.type, ctx.request.body)
     const page = ctx.params.page
-    const dataJson = ctx.request.body.data
+    const { fullPath, ua, data: dataJson } = ctx.request.body
     const data = dataJson ? JSON.parse(dataJson) : {}
-    await logBaecon({ page, data })
+    await logBaecon({ page, fullPath, ua, data })
     jsonResponse(ctx)
   })
 
