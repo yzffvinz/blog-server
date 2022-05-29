@@ -6,8 +6,8 @@
   "author": "yzffvinz <1178043794@qq.com>",
   "license": "BSD",
   "scripts": {
-    "serve": "node ./src/index.js",
-    "dev": "node-dev ./src/index.js"
+    "start": "node-dev ./src/index.js",
+    "serve": "node ./src/index.js"
   },
   "dependencies": {
     "@koa/router": "^10.1.1",
