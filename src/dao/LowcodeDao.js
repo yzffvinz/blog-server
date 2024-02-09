@@ -1,42 +1,6 @@
-const { MongoClient, ObjectId } = require('mongodb')
-const connect = MongoClient.connect
-const dbScheme = 'mongodb://localhost:27017'
+const { executeQuery, __wrapObjectId } = require('./connection')
+
 const { WHERE_OPS, MONGO_COMPARE_OPS_MAP, WHERE_TYPES } = require('./Constants')
-
-/**
- * 生成集合连接实例
- * @param {*} collectionName 集合名称
- * @returns {
- *    client: 连接，
- *    collection: 集合连接
- * }
- */
-async function __getConnection (collectionName) {
-  return new Promise((resolve, reject) => {
-    connect(dbScheme).then(client => {
-      const db = client.db('blog-db')
-      const collection = db.collection(collectionName)
-      if (!collection) {
-        client.close()
-        reject(new Error('connect collection failed'))
-        return
-      }
-      resolve({
-        done: () => client.close(),
-        collection
-      })
-    }, err => reject(err))
-  })
-}
-
-function __wrapObjectId (id) {
-  if (!id) { throw new Error('_id is null') }
-  if (!(id instanceof ObjectId)) {
-    id = ObjectId(id)
-  }
-  return id
-}
-
 /**
  * amis 存在部分类型相关的 bug
  * 这里对于 createtime updatetime 由字符串转为数字类型
@@ -51,7 +15,6 @@ function __transformTime (item) {
 
 module.exports = {
   async queryList (domain, where = [], options = {}) {
-    const { done, collection } = await __getConnection(domain)
     try {
       // 处理查询参数
       const whereOptions = where.reduce((sum, cur) => {
@@ -90,7 +53,10 @@ module.exports = {
 
         return Object.assign(sum, whereOption)
       }, {})
-      const rows = collection.find(whereOptions)
+
+      const rows = await executeQuery(domain, async collection =>
+        collection.find(whereOptions)
+      )
 
       // 处理分页
       if (options.page) {
@@ -113,41 +79,30 @@ module.exports = {
       return await rows.toArray()
     } catch (e) {
       console.log(e)
-    } finally {
-      done()
     }
   },
   async addDocument (domain, item) {
-    const { done, collection } = await __getConnection(domain)
-    try {
-      const now = Date.now()
-      return await collection.insertOne({ ...item, updatetime: now, createtime: now, version: 1 })
-    } finally {
-      done() // 调用 done 用于关闭连接
-    }
+    const now = Date.now()
+    return await executeQuery(domain, async collection =>
+      collection.insertOne({ ...item, updatetime: now, createtime: now, version: 1 })
+    )
   },
   async modifyDocument (domain, item) {
-    const { done, collection } = await __getConnection(domain)
-    try {
-      const _id = __wrapObjectId(item._id)
-      __transformTime(item)
-      // const now = Date.now()
-      // const copy = { ...item, updatetime: now }
-      const copy = { ...item }
-      delete copy._id
+    const _id = __wrapObjectId(item._id)
+    __transformTime(item)
+    // const now = Date.now()
+    // const copy = { ...item, updatetime: now }
+    const copy = { ...item }
+    delete copy._id
 
-      return await collection.updateOne({ _id }, { $set: copy })
-    } finally {
-      done() // 调用 done 用于关闭连接
-    }
+    return await executeQuery(domain, async collection =>
+      collection.updateOne({ _id }, { $set: copy })
+    )
   },
   async delDocument (domain, id) {
-    const { done, collection } = await __getConnection(domain)
-    try {
-      const _id = __wrapObjectId(id)
-      return await collection.deleteOne({ _id })
-    } finally {
-      done() // 调用 done 用于关闭连接
-    }
+    const _id = __wrapObjectId(id)
+    return await executeQuery(domain, async collection =>
+      collection.deleteOne({ _id })
+    )
   }
 }
